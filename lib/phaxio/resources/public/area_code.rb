@@ -5,7 +5,7 @@ module Phaxio
       #
       # @see Phaxio::Resources::PhoneNumber.list_available_area_codes
       class AreaCode < Resource
-        AVAILABLE_AREA_CODES_PATH = 'public/area_codes'.freeze
+        AVAILABLE_AREA_CODES_PATH = "public/area_codes".freeze
         private_constant :AVAILABLE_AREA_CODES_PATH
 
         # @return [Integer] The country code associated with this area code.

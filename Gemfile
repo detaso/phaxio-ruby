@@ -11,4 +11,7 @@ group :development, :test do
   gem "pry"
   gem "yard"
   gem "dotenv", require: false
+
+  # Ruby Style Guide, with linter & automatic code fixer
+  gem "standard", "~> 1.28", ">= 1.28.5"
 end

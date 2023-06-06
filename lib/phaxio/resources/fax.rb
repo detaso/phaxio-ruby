@@ -2,7 +2,7 @@ module Phaxio
   module Resources
     # Provides functionality for viewing and managing faxes.
     class Fax < Resource
-      FAXES_PATH = 'faxes'.freeze
+      FAXES_PATH = "faxes".freeze
       private_constant :FAXES_PATH
 
       # @return [Integer] the ID associated with this fax.
@@ -89,8 +89,8 @@ module Phaxio
         def get
           Fax.get self
         end
-        alias :retrieve :get
-        alias :find :get
+        alias_method :retrieve, :get
+        alias_method :find, :get
 
         def to_i
           id
@@ -165,7 +165,7 @@ module Phaxio
           response = Client.request :post, faxes_endpoint, params
           response_reference response
         end
-        alias :send :create
+        alias_method :send, :create
 
         # Get fax info.
         # @param id [Integer]
@@ -179,8 +179,8 @@ module Phaxio
           response = Client.request :get, fax_endpoint(id.to_i), params
           response_record response
         end
-        alias :retrieve :get
-        alias :find :get
+        alias_method :retrieve, :get
+        alias_method :find, :get
 
         # Cancel a fax.
         # @param id [Integer]
@@ -278,7 +278,7 @@ module Phaxio
         private
 
         def response_reference response
-          Reference.new response['id']
+          Reference.new response["id"]
         end
 
         def faxes_endpoint
@@ -302,7 +302,7 @@ module Phaxio
         end
 
         def test_receive_params params
-          {direction: 'received'}.merge(params)
+          {direction: "received"}.merge(params)
         end
       end
     end

@@ -2,7 +2,7 @@ module Phaxio
   module Resources
     module Public
       class Country < Resource
-        SUPPORTED_COUNTRIES_PATH = 'public/countries'.freeze
+        SUPPORTED_COUNTRIES_PATH = "public/countries".freeze
         private_constant :SUPPORTED_COUNTRIES_PATH
 
         # @return [String] the name of the country.

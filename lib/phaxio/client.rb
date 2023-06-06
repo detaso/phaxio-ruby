@@ -26,12 +26,12 @@ module Phaxio
         params = api_params params
         begin
           response = case method.to_s
-                     when 'post' then post(endpoint, params)
-                     when 'patch' then patch(endpoint, params)
-                     when 'get' then get(endpoint, params)
-                     when 'delete' then delete(endpoint, params)
-                     else raise ArgumentError, "HTTP method `#{method}` is not supported."
-                     end
+          when "post" then post(endpoint, params)
+          when "patch" then patch(endpoint, params)
+          when "get" then get(endpoint, params)
+          when "delete" then delete(endpoint, params)
+          else raise ArgumentError, "HTTP method `#{method}` is not supported."
+          end
           handle_response response
         rescue Faraday::ConnectionFailed, Faraday::TimeoutError, Faraday::SSLError => error
           raise Error::ApiConnectionError, "Error communicating with Phaxio: #{error}"
@@ -53,32 +53,32 @@ module Phaxio
         content_type = response.headers[:content_type]
 
         if content_type
-          if content_type.start_with? 'application/json'
+          if content_type.start_with? "application/json"
             body = JSON.parse(response.body).with_indifferent_access
           else
             extension = MimeTypeHelper.extension_for_mimetype content_type
             filename = File.join Dir.tmpdir, tmpname(extension)
-            File.open(filename, 'wb') { |file| file.write response.body }
-            body = {'success' => response.success?, 'data' => File.open(filename, 'rb')}
+            File.binwrite(filename, response.body)
+            body = {"success" => response.success?, "data" => File.open(filename, "rb")}
           end
         else
           body = {}
         end
 
         if response.success?
-          raise(Error::GeneralError, body['message']) unless body['success']
+          raise(Error::GeneralError, body["message"]) unless body["success"]
 
           # Check if this is a response with paging. If so, we want to return that along with the
           # data.
-          if body.key? 'paging'
-            {'data' => body['data'], 'paging' => body['paging']}
+          if body.key? "paging"
+            {"data" => body["data"], "paging" => body["paging"]}
           else
-            body['data']
+            body["data"]
           end
         else
           status = response.status
           # TODO: Handle blank message
-          message = body['message']
+          message = body["message"]
 
           case status
           when 401
@@ -105,12 +105,12 @@ module Phaxio
       def post endpoint, params = {}
         # Handle file params
         params.each do |k, v|
-          next unless k.to_s == 'file'
+          next unless k.to_s == "file"
 
-          if v.is_a? Array
-            file_param = v.map { |file| file_to_param file }
+          file_param = if v.is_a? Array
+            v.map { |file| file_to_param file }
           else
-            file_param = file_to_param v
+            file_to_param v
           end
 
           params[k] = file_param
@@ -122,12 +122,12 @@ module Phaxio
       def patch endpoint, params = {}
         # Handle file params
         params.each do |k, v|
-          next unless k.to_s == 'file'
+          next unless k.to_s == "file"
 
-          if v.is_a? Array
-            file_param = v.map { |file| file_to_param file }
+          file_param = if v.is_a? Array
+            v.map { |file| file_to_param file }
           else
-            file_param = file_to_param v
+            file_to_param v
           end
 
           params[k] = file_param
@@ -147,7 +147,7 @@ module Phaxio
       def api_params params
         # Convert times to ISO 8601
         params.each do |k, v|
-          next unless v.kind_of?(Time) || v.kind_of?(Date)
+          next unless v.is_a?(Time) || v.is_a?(Date)
           params[k] = v.to_datetime.iso8601
         end
 
@@ -155,11 +155,11 @@ module Phaxio
       end
 
       def api_headers params
-        api_key    = params.delete(:api_key)    || Phaxio.api_key
+        api_key = params.delete(:api_key) || Phaxio.api_key
         api_secret = params.delete(:api_secret) || Phaxio.api_secret
         return unless api_key && api_secret
         auth = Base64.strict_encode64("#{api_key}:#{api_secret}")
-        {'Authorization' => "Basic #{auth}"}
+        {"Authorization" => "Basic #{auth}"}
       end
 
       def file_to_param file

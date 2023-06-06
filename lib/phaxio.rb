@@ -14,7 +14,7 @@ require "phaxio/error"
 require "phaxio/resource"
 require "phaxio/resources"
 
-Dir[File.expand_path(File.join("..", "phaxio", "helpers", "*.rb"), __FILE__)].each do |file|
+Dir[File.expand_path(File.join("..", "phaxio", "helpers", "*.rb"), __FILE__)].sort.each do |file|
   require file
 end
 

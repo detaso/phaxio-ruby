@@ -2,7 +2,7 @@ module Phaxio
   module Resources
     # Information about your Phaxio account.
     class Account < Resource
-      ACCOUNT_PATH = 'account'
+      ACCOUNT_PATH = "account"
       private_constant :ACCOUNT_PATH
 
       # @return [Integer] Your current account funds balance in cents.
@@ -27,8 +27,8 @@ module Phaxio
           response = Client.request :get, account_status_endpoint, params
           response_record response
         end
-        alias :status :get
-        alias :retrieve :get
+        alias_method :status, :get
+        alias_method :retrieve, :get
 
         private
 

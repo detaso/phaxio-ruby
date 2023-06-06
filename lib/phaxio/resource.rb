@@ -16,20 +16,20 @@ module Phaxio
     # Populates the instance's attributes based on the `raw_data`.
     def populate_attributes
       self.class.normal_attribute_list.each do |normal_attribute|
-        self.public_send "#{normal_attribute}=", raw_data[normal_attribute]
+        public_send "#{normal_attribute}=", raw_data[normal_attribute]
       end
 
       self.class.time_attribute_list.each do |time_attribute|
         time = raw_data[time_attribute]
         time = Time.parse(time) if !time.nil?
-        self.public_send "#{time_attribute}=", time
+        public_send "#{time_attribute}=", time
       end
 
       self.class.collection_attribute_mappings.each do |collection_attribute, klass|
         collection = raw_data[collection_attribute] || []
-        collection = {'data' => collection}
+        collection = {"data" => collection}
         collection = klass.response_collection(collection)
-        self.public_send "#{collection_attribute}=", collection
+        public_send "#{collection_attribute}=", collection
       end
     end
 
@@ -85,7 +85,7 @@ module Phaxio
       # @see Phaxio::Resource.normal_attribute_list
       def has_normal_attributes attribute_list
         attribute_list = attribute_list.map { |attribute_name| attribute_name.to_s.freeze }
-        attr_accessor *attribute_list
+        attr_accessor(*attribute_list)
         self.attribute_list += attribute_list
         self.normal_attribute_list += attribute_list
       end
@@ -97,7 +97,7 @@ module Phaxio
       # @see Phaxio::Resource.time_attribute_list
       def has_time_attributes attribute_list
         attribute_list = attribute_list.map { |attribute_name| attribute_name.to_s.freeze }
-        attr_accessor *attribute_list
+        attr_accessor(*attribute_list)
         self.attribute_list += attribute_list
         self.time_attribute_list += attribute_list
       end
@@ -111,11 +111,11 @@ module Phaxio
       def has_collection_attributes attribute_hash
         # Array#to_h doesn't exist in 2.0.0, hence the inject here.
         attribute_hash = attribute_hash
-          .map { |k, v| [ k.to_s.freeze, v ] }
+          .map { |k, v| [k.to_s.freeze, v] }
           .inject({}) { |memo, obj| memo.tap { |memo| memo[obj.first] = obj.last } }
-        attr_accessor *attribute_hash.keys
+        attr_accessor(*attribute_hash.keys)
         self.attribute_list += attribute_hash.keys
-        self.collection_attribute_mappings = self.collection_attribute_mappings.merge(attribute_hash)
+        self.collection_attribute_mappings = collection_attribute_mappings.merge(attribute_hash)
       end
 
       # Use the inherited hook to dynamically set each subclass's attribute lists to empty arrays
@@ -142,12 +142,12 @@ module Phaxio
         # For some endpoints we'll get a hash with `paging` and `data` attributes.
         # For others, just an array.
         if response_data.is_a? Hash
-          if response_data.key? 'paging'
-            self.total = response_data['paging']['total']
-            self.per_page = response_data['paging']['per_page']
-            self.page = response_data['paging']['page']
+          if response_data.key? "paging"
+            self.total = response_data["paging"]["total"]
+            self.per_page = response_data["paging"]["per_page"]
+            self.page = response_data["paging"]["page"]
           end
-          self.raw_data = response_data['data']
+          self.raw_data = response_data["data"]
         else
           self.raw_data = response_data
         end

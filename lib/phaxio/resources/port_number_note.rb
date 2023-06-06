@@ -2,9 +2,9 @@ module Phaxio
   module Resources
     # Provides functionality for viewing port number notes.
     class PortNumberNote < Resource
-      PORT_NUMBERS_PATH = 'port_numbers'.freeze
+      PORT_NUMBERS_PATH = "port_numbers".freeze
       private_constant :PORT_NUMBERS_PATH
-      NOTES_PATH = 'notes'.freeze
+      NOTES_PATH = "notes".freeze
       private_constant :NOTES_PATH
 
       # @return [Integer] the ID associated with this note.
@@ -20,7 +20,7 @@ module Phaxio
 
       # @return [Time] the time this note was created.
       # @!attribute created_at
-      
+
       # @return [Time] the time this note was updated.
       # @!attribute updated_at
 

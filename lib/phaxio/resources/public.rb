@@ -5,4 +5,4 @@ module Phaxio
   end
 end
 
-Dir[File.expand_path(File.join('..', 'public', '*.rb'), __FILE__)].each { |file| require file }
+Dir[File.expand_path(File.join("..", "public", "*.rb"), __FILE__)].each { |file| require file }

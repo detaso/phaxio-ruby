@@ -2,8 +2,8 @@ module Phaxio
   module Resources
     # Provides functionality for viewing and managing PhaxCodes.
     class PhaxCode < Resource
-      PHAX_CODES_PATH = 'phax_codes'.freeze
-      DEFAULT_PHAX_CODE_PATH = 'phax_code'.freeze
+      PHAX_CODES_PATH = "phax_codes".freeze
+      DEFAULT_PHAX_CODE_PATH = "phax_code".freeze
       private_constant :PHAX_CODES_PATH, :DEFAULT_PHAX_CODE_PATH
 
       # @return [String] The identifier for the PhaxCode.
@@ -30,9 +30,9 @@ module Phaxio
         # @raise [Phaxio::Error::PhaxioError]
         # @see https://www.phaxio.com/docs/api/v2.1/phaxcodes/create_phax_code
         def create params = {}
-          endpoint = case (params[:type] || params['type']).to_s
-            when 'png' then phax_codes_endpoint_png
-            else phax_codes_endpoint
+          endpoint = case (params[:type] || params["type"]).to_s
+          when "png" then phax_codes_endpoint_png
+          else phax_codes_endpoint
           end
           result = Client.request :post, endpoint, params
           return result if result.is_a? File
@@ -50,21 +50,21 @@ module Phaxio
         # @raise [Phaxio::Error::PhaxioError]
         # @see https://www.phaxio.com/docs/api/v2.1/phaxcodes/retrieve_phax_code
         def get params = {}
-          identifier = params[:identifier] || params['identifier']
-          endpoint = case (identifier)
-            when nil then default_phax_code_path
-            else phax_code_endpoint(identifier)
+          identifier = params[:identifier] || params["identifier"]
+          endpoint = case identifier
+          when nil then default_phax_code_path
+          else phax_code_endpoint(identifier)
           end
-          endpoint = case (params[:type] || params['type']).to_s
-            when 'png' then "#{endpoint}.png"
-            else endpoint
+          endpoint = case (params[:type] || params["type"]).to_s
+          when "png" then "#{endpoint}.png"
+          else endpoint
           end
           result = Client.request :get, endpoint, {}
           return result if result.is_a? File
           response_record result
         end
-        alias :find :get
-        alias :retrieve :get
+        alias_method :find, :get
+        alias_method :retrieve, :get
 
         private
 

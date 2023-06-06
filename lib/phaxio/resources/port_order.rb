@@ -2,7 +2,7 @@ module Phaxio
   module Resources
     # Provides functionality for viewing and managing port orders.
     class PortOrder < Resource
-      PORT_ORDERS_PATH = 'port_orders'.freeze
+      PORT_ORDERS_PATH = "port_orders".freeze
       private_constant :PORT_ORDERS_PATH
 
       # @return [Integer] the ID associated with this order.
@@ -154,8 +154,8 @@ module Phaxio
           response = Client.request :get, port_order_endpoint(id.to_i), params
           response_record response
         end
-        alias :retrieve :get
-        alias :find :get
+        alias_method :retrieve, :get
+        alias_method :find, :get
 
         private
 

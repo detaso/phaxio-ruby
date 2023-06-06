@@ -4,7 +4,7 @@ module Phaxio
     # @see https://www.phaxio.com/docs/api/v2.1/faxes/send_webhook
     # @see https://www.phaxio.com/docs/api/v2.1/faxes/receive_webhooks
     class Webhook
-      DIGEST = OpenSSL::Digest.new('sha1')
+      DIGEST = OpenSSL::Digest.new("sha1")
       private_constant :DIGEST
 
       class << self
@@ -36,7 +36,7 @@ module Phaxio
         end
 
         def webhook_token
-          Phaxio.webhook_token or raise(Error::PhaxioError, 'No webhook token has been set')
+          Phaxio.webhook_token or raise(Error::PhaxioError, "No webhook token has been set")
         end
 
         def generate_params_string(params)

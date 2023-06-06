@@ -2,7 +2,7 @@ module Phaxio
   module Resources
     # Provides functionality for managing ATAs.
     class Ata < Resource
-      ATAS_PATH = 'atas'.freeze
+      ATAS_PATH = "atas".freeze
       private_constant :ATAS_PATH
 
       # @return [Integer] the ID of the ATA.
@@ -69,8 +69,8 @@ module Phaxio
         def get
           Ata.get self
         end
-        alias :retrieve :get
-        alias :find :get
+        alias_method :retrieve, :get
+        alias_method :find, :get
 
         private
 
@@ -81,13 +81,13 @@ module Phaxio
 
       # A set of provisioning URLs.
       class ProvisioningURLs
-        # @return [Hash<String: String>] The hash of provisioning URLs. 
+        # @return [Hash<String: String>] The hash of provisioning URLs.
         # @!attribute urls
         attr_reader :urls
 
-        GRANDSTREAM = 'Grandstream'
-        OBI = 'OBi'
-        NETGEN = 'Netgen'
+        GRANDSTREAM = "Grandstream"
+        OBI = "OBi"
+        NETGEN = "Netgen"
 
         def initialize data
           @urls = data
@@ -95,17 +95,17 @@ module Phaxio
 
         # @return [String] The Grandstream provisioning url.
         def grandstream
-          self.urls.fetch(GRANDSTREAM)
+          urls.fetch(GRANDSTREAM)
         end
 
         # @return [String] The OBi provisioning url.
         def obi
-          self.urls.fetch(OBI)
+          urls.fetch(OBI)
         end
 
         # @return [String] The Netgen provisioning url.
         def netgen
-          self.urls.fetch(NETGEN)
+          urls.fetch(NETGEN)
         end
       end
 
@@ -154,8 +154,8 @@ module Phaxio
           response = Client.request :get, ata_endpoint(id.to_i), params
           response_record response
         end
-        alias :retrieve :get
-        alias :find :get
+        alias_method :retrieve, :get
+        alias_method :find, :get
 
         # Update an ATA
         # @param id [Integer]
@@ -249,11 +249,11 @@ module Phaxio
         private
 
         def response_reference response
-          Reference.new Integer(response['id'])
+          Reference.new Integer(response["id"])
         end
 
         def response_phone_number_reference response
-          PhoneNumber::Reference.new(response['phone_number'])
+          PhoneNumber::Reference.new(response["phone_number"])
         end
 
         def response_provisioning_urls response

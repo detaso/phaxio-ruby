@@ -2,7 +2,7 @@ module Phaxio
   module Resources
     # Provides functionality for viewing and managing phone numbers.
     class PhoneNumber < Resource
-      PHONE_NUMBERS_PATH = 'phone_numbers'.freeze
+      PHONE_NUMBERS_PATH = "phone_numbers".freeze
       private_constant :PHONE_NUMBERS_PATH
 
       # @return [String] The phone number itself, in E.164 format.
@@ -23,7 +23,7 @@ module Phaxio
       # @return [String] The callback URL associated with the phone number.
       # @!attribute callback_url
 
-      has_normal_attributes %w(phone_number city state country cost callback_url)
+      has_normal_attributes %w[phone_number city state country cost callback_url]
 
       # @return [Time] The time at which the phone number was provisioned.
       # @!attribute provisioned_at
@@ -31,7 +31,7 @@ module Phaxio
       # @return [Time] The last time the phone number was billed.
       # @!attribute last_billed_at
 
-      has_time_attributes %w(provisioned_at last_billed_at)
+      has_time_attributes %w[provisioned_at last_billed_at]
 
       # A reference to a phone number, returned by some actions.
       class Reference
@@ -49,8 +49,8 @@ module Phaxio
         def get
           PhoneNumber.get self
         end
-        alias :retrieve :get
-        alias :find :get
+        alias_method :retrieve, :get
+        alias_method :find, :get
 
         private
 
@@ -75,7 +75,7 @@ module Phaxio
           response = Client.request :post, phone_numbers_endpoint, params
           response_record response
         end
-        alias :provision :create
+        alias_method :provision, :create
 
         # Get information about a specific phone number.
         # @param phone_number [String]
@@ -89,8 +89,8 @@ module Phaxio
           response = Client.request :get, phone_number_endpoint(phone_number.to_s), params
           response_record response
         end
-        alias :find :get
-        alias :retrieve :get
+        alias_method :find, :get
+        alias_method :retrieve, :get
 
         # @macro paging
         # Get a list of phone numbers that you currently own on Phaxio.
@@ -121,7 +121,7 @@ module Phaxio
           Client.request :delete, phone_number_endpoint(phone_number), params
           true
         end
-        alias :release :delete
+        alias_method :release, :delete
 
         private
 

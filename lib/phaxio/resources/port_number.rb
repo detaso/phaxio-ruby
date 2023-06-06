@@ -2,7 +2,7 @@ module Phaxio
   module Resources
     # Provides functionality for viewing port numbers.
     class PortNumber < Resource
-      PORT_NUMBERS_PATH = 'port_numbers'.freeze
+      PORT_NUMBERS_PATH = "port_numbers".freeze
       private_constant :PORT_NUMBERS_PATH
 
       # @return [Integer] the ID associated with this number.
@@ -13,8 +13,8 @@ module Phaxio
 
       # @return [String] the status of this number.
       # @!attribute status
-      
-      has_normal_attributes %w(id port_number status)
+
+      has_normal_attributes %w[id port_number status]
 
       class << self
         # Get port number info.
@@ -28,8 +28,8 @@ module Phaxio
           response = Client.request :get, port_number_endpoint(id.to_i), params
           response_record response
         end
-        alias :retrieve :get
-        alias :find :get
+        alias_method :retrieve, :get
+        alias_method :find, :get
 
         private
 
